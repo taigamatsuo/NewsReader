@@ -8,6 +8,7 @@
 
 import UIKit
 
+//デリゲートの指定
 class ListViewController: UITableViewController , XMLParserDelegate {
     var parser:XMLParser!
     var items = [Item]()
@@ -17,6 +18,7 @@ class ListViewController: UITableViewController , XMLParserDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
+    
     //表示するセルの作成
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell" , for: indexPath)
@@ -24,13 +26,16 @@ class ListViewController: UITableViewController , XMLParserDelegate {
         return cell
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startDounload()
     }
     
+    
+    //データのダウンロード
     func startDounload() {
-        self.items = []
+        self.items = []//記事の重複を防ぐ
         if let url = URL(
             string: "https:/wired.jp/rssfeeder/"){
             if let parser = XMLParser(contentsOf: url) {
@@ -41,6 +46,7 @@ class ListViewController: UITableViewController , XMLParserDelegate {
         }
 }
 
+    
     func parser(_ parser: XMLParser,
                 didStartElement elementName: String,
                 namespaceURI: String?,
@@ -52,9 +58,12 @@ class ListViewController: UITableViewController , XMLParserDelegate {
         }
     }
     
+    
+    
     func parser(_ parser:XMLParser , foundCharacters string : String) {
         self.currentString += string
     }
+    //内容を取り出す処理
     
     func parser(_ parser: XMLParser,
                 didEndElement elementName: String,
@@ -68,9 +77,11 @@ class ListViewController: UITableViewController , XMLParserDelegate {
         }
     }
     
+    
     func parserDidEndDocument(_ parser: XMLParser) {
         self.tableView.reloadData()
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender : Any?) {
         if let indexPath = self.tableView.indexPathForSelectedRow {
