@@ -31,7 +31,7 @@ class ListViewController: UITableViewController , XMLParserDelegate {
         super.viewDidAppear(animated)
         startDounload()
     }
-    
+    //startdownload
     
     //データのダウンロード
     func startDounload() {
