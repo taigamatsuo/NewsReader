@@ -8,7 +8,7 @@
 
 import UIKit
 
-//デリゲートの指定をする
+//デリゲート
 class ListViewController: UITableViewController , XMLParserDelegate {
     var parser:XMLParser!
     var items = [Item]()
